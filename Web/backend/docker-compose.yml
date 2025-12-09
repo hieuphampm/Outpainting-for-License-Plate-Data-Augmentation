@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  backend-ai:
+    build: .
+    container_name: ai_car_backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+      - ./Models:/app/Models
+      - ./hf_cache:/root/.cache/huggingface
+    environment:
+      - HF_HOME=/root/.cache/huggingface
+    command: uvicorn server:app --host 0.0.0.0 --port 8000 --reload
