@@ -44,16 +44,15 @@ try:
         safety_checker=None,
         use_safetensors=False 
     ).to(DEVICE)
-    print("   -> Base Pipeline OK.")
+    print("Base Pipeline OK.")
 
     print(f"2. Loading Fine-tuned UNet from {MODEL_CHECKPOINT_PATH}...")
     
     if os.path.exists(MODEL_CHECKPOINT_PATH):
-        # Tự động phát hiện xem custom model là .bin hay .safetensors
         is_safetensors = os.path.exists(os.path.join(MODEL_CHECKPOINT_PATH, "diffusion_pytorch_model.safetensors"))
         
         try:
-            print(f"   -> Detected Custom Model type: {'Safetensors' if is_safetensors else 'Bin'}")
+            print(f"Detected Custom Model type: {'Safetensors' if is_safetensors else 'Bin'}")
             unet = UNet2DConditionModel.from_pretrained(
                 MODEL_CHECKPOINT_PATH, 
                 torch_dtype=DTYPE,
@@ -61,7 +60,7 @@ try:
             ).to(DEVICE)
             
             pipe.unet = unet
-            print(" Custom UNet loaded successfully!")
+            print("Custom UNet loaded successfully!")
         except Exception as e:
             print(f"Error load UNet: {e}")
     else:
